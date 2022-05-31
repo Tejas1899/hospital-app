@@ -11,9 +11,7 @@ import javax.persistence.Query;
 import hospital_app.dao.User_Dao;
 import hospital_app.dto.User;
 
- 
-
-public class UserDao implements User_Dao {
+public class UserDaoImp implements User_Dao {
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("vikas");
 	EntityManager entityManager = entityManagerFactory.createEntityManager();
 	EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -22,7 +20,7 @@ public class UserDao implements User_Dao {
 		entityTransaction.begin();
 		entityManager.persist(user);
 		entityTransaction.commit();
-		return entityManager.find(User.class,user.getId());
+		return entityManager.find(User.class, user.getId());
 	}
 
 	public User getUserById(int id) {
@@ -34,7 +32,6 @@ public class UserDao implements User_Dao {
 		}
 
 	}
-	
 
 	public List<User> getAllUsers() {
 		String sql = "Select u from User u";
@@ -72,10 +69,17 @@ public class UserDao implements User_Dao {
 		}
 
 	}
-	
-	public User updateUser(User user,int id)
-	{
-		return user;
+
+	public User updateUser(User user, int id) {
+		User user1 = entityManager.find(User.class, id);
+		if (user1 != null) {
+			entityTransaction.begin();
+			entityManager.merge(user);
+			entityTransaction.commit();
+			return user;
+		} else {
+			return null;
+		}
 	}
 
 }

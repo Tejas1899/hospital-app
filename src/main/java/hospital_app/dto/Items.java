@@ -1,9 +1,11 @@
 package hospital_app.dto;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -15,6 +17,7 @@ public class Items {
 	private double cost;
 	private int quantity;
 	@ManyToOne
+	@JoinColumn()
 	private MedOrder medOrder;
 	public MedOrder getMedOrder() {
 		return medOrder;
